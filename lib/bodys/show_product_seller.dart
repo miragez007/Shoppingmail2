@@ -40,7 +40,7 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('This is Show Product'),
+      body: Text('This is Show Products'),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             Navigator.pushNamed(context, MyConstant.routeAddProduct),
