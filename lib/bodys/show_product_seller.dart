@@ -107,28 +107,33 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                     padding: EdgeInsets.all(4),
                     width: constraints.maxWidth * 0.5 - 5,
                     height: constraints.maxWidth * 0.5,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ShowTitle(
                             title: productModels[index].name,
                             textStyle: MyConstant().h2Style()),
-                        Container(width: constraints.maxWidth*0.5,
+                        Container(
+                          width: constraints.maxWidth * 0.5,
                           height: constraints.maxWidth * 0.4,
-                          child: CachedNetworkImage(fit: BoxFit.cover,
-                          imageUrl: createUrl(productModels[index].images),
-                          placeholder: (context,url) => ShowProgress(),
-                          errorWidget: (context, url ,error) => ShowImage(path: MyConstant.image1),                         
-                            
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: createUrl(productModels[index].images),
+                            placeholder: (context, url) => ShowProgress(),
+                            errorWidget: (context, url, error) =>
+                                ShowImage(path: MyConstant.image1),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Container(
+                  Container(margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.all(4),
                     width: constraints.maxWidth * 0.5 - 5,
-                    child: Column(
+                    height: constraints.maxWidth*0.4,
+
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ShowTitle(
@@ -137,6 +142,12 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                         ShowTitle(
                             title: '${productModels[index].detail}',
                             textStyle: MyConstant().h3Style()),
+                            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(onPressed: (){}, icon: Icon(Icons.edit_outlined,size: 36 ,color: MyConstant.dark,)),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.delete_outline,size: 36 ,color: MyConstant.dark,)),
+                              ],
+                            )
                       ],
                     ),
                   ),
