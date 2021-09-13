@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/product_model.dart';
 import 'package:shoppingmall/ultility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_prograess.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
@@ -87,30 +89,59 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
     );
   }
 
+  String createUrl(String string) {
+    String result = string.substring(1, string.length - 1);
+    List<String> strings = result.split(',');
+    String url = '${MyConstant.domain}/shoppingmall${strings[0]}';
+    return url;
+  }
+
   ListView buildListView(BoxConstraints constraints) {
     return ListView.builder(
         itemCount: productModels.length,
         itemBuilder: (context, index) => Card(
-          child: Row(
+              child: Row(
                 children: [
                   Container(
+                    //picture
                     padding: EdgeInsets.all(4),
-                    width: constraints.maxWidth*0.5-5,
-                    child: ShowTitle(title: productModels[index].name, textStyle: MyConstant().h2Style()),
+                    width: constraints.maxWidth * 0.5 - 5,
+                    height: constraints.maxWidth * 0.5,
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ShowTitle(
+                            title: productModels[index].name,
+                            textStyle: MyConstant().h2Style()),
+                        Container(width: constraints.maxWidth*0.5,
+                          height: constraints.maxWidth * 0.4,
+                          child: CachedNetworkImage(fit: BoxFit.cover,
+                          imageUrl: createUrl(productModels[index].images),
+                          placeholder: (context,url) => ShowProgress(),
+                          errorWidget: (context, url ,error) => ShowImage(path: MyConstant.image1),                         
+                            
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.all(4),
-                    width: constraints.maxWidth*0.5-5,
+                    width: constraints.maxWidth * 0.5 - 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ShowTitle(title: 'Price ${productModels[index].price} BTH', textStyle: MyConstant().h2Style()),
-                        ShowTitle(title: 'productModels[index].detail' , textStyle: MyConstant().h3Style()),
+                        ShowTitle(
+                            title: 'Price ${productModels[index].price} BTH',
+                            textStyle: MyConstant().h2Style()),
+                        ShowTitle(
+                            title: '${productModels[index].detail}',
+                            textStyle: MyConstant().h3Style()),
                       ],
                     ),
                   ),
                 ],
               ),
-        ));
+            ));
   }
 }
