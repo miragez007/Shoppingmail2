@@ -128,12 +128,13 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                       ],
                     ),
                   ),
-                  Container(margin: EdgeInsets.only(top: 20),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.all(4),
                     width: constraints.maxWidth * 0.5 - 5,
-                    height: constraints.maxWidth*0.4,
-
-                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    height: constraints.maxWidth * 0.4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ShowTitle(
@@ -142,17 +143,70 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                         ShowTitle(
                             title: '${productModels[index].detail}',
                             textStyle: MyConstant().h3Style()),
-                            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(onPressed: (){}, icon: Icon(Icons.edit_outlined,size: 36 ,color: MyConstant.dark,)),
-                                IconButton(onPressed: (){}, icon: Icon(Icons.delete_outline,size: 36 ,color: MyConstant.dark,)),
-                              ],
-                            )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                print('## you Click Edit form index = $index');
+                              },
+                              icon: Icon(
+                                Icons.edit_outlined,
+                                size: 36,
+                                color: MyConstant.dark,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                print(
+                                    '## you Click Delete form index = $index');
+                                confirmDialogDele(productModels[index]);
+                              },
+                              icon: Icon(
+                                Icons.delete_outline,
+                                size: 36,
+                                color: MyConstant.dark,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
             ));
+  }
+
+  Future<Null> confirmDialogDele(ProductModel productModel) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: ListTile(
+          leading: CachedNetworkImage(
+            imageUrl: createUrl(productModel.images),
+            placeholder: (context, url) => ShowProgress(),
+          ),
+          title: ShowTitle(
+            title: 'Delete ${productModel.name} ?',
+            textStyle: MyConstant().h2Style(),
+          ),
+          subtitle: ShowTitle(
+            title: productModel.detail,
+            textStyle: MyConstant().h3Style(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Delete'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 }
