@@ -7,6 +7,7 @@ import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class MyDialog {
+  // ignore: non_constant_identifier_names
   Future<Null> ShowProgressDialog(BuildContext context) async {
     showDialog(
       context: context,
