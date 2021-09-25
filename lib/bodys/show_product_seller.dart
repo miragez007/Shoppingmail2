@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoppingmall/bodys/edit_product.dart';
 import 'package:shoppingmall/models/product_model.dart';
 import 'package:shoppingmall/ultility/my_constant.dart';
 import 'package:shoppingmall/widgets/show_image.dart';
@@ -31,10 +32,8 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
   Future<Null> loadValueFormAPI() async {
     if (productModels.length != 0) {
       productModels.clear();
-      
-    } else {
-    }
-    
+    } else {}
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = preferences.getString('id')!;
 
@@ -90,7 +89,8 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyConstant.dark,
         onPressed: () =>
-            Navigator.pushNamed(context, MyConstant.routeAddProduct).then((value) => loadValueFormAPI()),
+            Navigator.pushNamed(context, MyConstant.routeAddProduct)
+                .then((value) => loadValueFormAPI()),
         child: Text('Add'),
       ),
     );
@@ -155,7 +155,13 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                print('## you Click Edit form index = $index');
+                                print('## you Click Edit ');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProduct(productModel: productModels[index],),
+                                  ),
+                                );
                               },
                               icon: Icon(
                                 Icons.edit_outlined,
@@ -205,13 +211,13 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
         ),
         actions: [
           TextButton(
-            onPressed: ()async {
+            onPressed: () async {
               print('## confirm dellet at id == ${productModel.id}');
-              String apiDeleteProductWhereId = '${MyConstant.domain}/shoppingmall/deleteProductWhereId.php?isAdd=true&id=${productModel.id}';
-              await Dio().get(apiDeleteProductWhereId).then((value)  {
+              String apiDeleteProductWhereId =
+                  '${MyConstant.domain}/shoppingmall/deleteProductWhereId.php?isAdd=true&id=${productModel.id}';
+              await Dio().get(apiDeleteProductWhereId).then((value) {
                 Navigator.pop(context);
                 loadValueFormAPI();
-
               });
             },
             child: Text('Delete'),
